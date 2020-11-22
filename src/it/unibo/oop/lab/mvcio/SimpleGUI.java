@@ -1,9 +1,16 @@
 package it.unibo.oop.lab.mvcio;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 /**
  * A very simple program using a graphical interface.
@@ -11,8 +18,12 @@ import javax.swing.JFrame;
  */
 public final class SimpleGUI {
 
-    private final JFrame frame = new JFrame();
+    private final JFrame frame = new JFrame("My first Java graphical interface");
 
+    public static void main(final String[] args) {
+        final SimpleGUI simp = new SimpleGUI();
+        simp.frame.setVisible(true);
+    }
     /*
      * Once the Controller is done, implement this class in such a way that:
      * 
@@ -57,6 +68,23 @@ public final class SimpleGUI {
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(new JPanel());
+        frame.getContentPane().setLayout(new BorderLayout());
+        final JTextArea txtArea = new JTextArea();
+        frame.getContentPane().add(txtArea);
+        final JButton save = new JButton("Save");
+        frame.getContentPane().add(save, BorderLayout.SOUTH);
+        save.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+                final Controller cont = new Controller();
+                try {
+                    cont.writeOnFile(txtArea.getText());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
     }
 
 }

@@ -1,10 +1,39 @@
 package it.unibo.oop.lab.mvcio;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  * 
  */
 public class Controller {
 
+    private static String DEFAULT_FILE_NAME = "output.txt";
+    private File currentFile;
+    private String path;
+    
+    public Controller() {
+        this.path = System.getProperty("user.home")
+                + System.getProperty("file.separator") + Controller.DEFAULT_FILE_NAME;
+        this.currentFile = new File(this.path);
+    }
+    public final void setFile(final File newFile) {
+        this.currentFile = newFile;
+        this.path = newFile.getAbsolutePath();
+    }
+    public final File getFile() {
+        return this.currentFile;
+    }
+    public final String getPath() {
+        return this.path;
+    }
+    public final void writeOnFile(final String sentence) throws IOException {
+        try (BufferedWriter w = new BufferedWriter(new FileWriter(this.path))) {
+            w.write(sentence);
+        }
+    }
     /*
      * This class must implement a simple controller responsible of I/O access. It
      * considers a single file at a time, and it is able to serialize objects in it.
