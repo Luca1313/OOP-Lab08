@@ -1,11 +1,83 @@
 package it.unibo.oop.lab.mvcio2;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
+import it.unibo.oop.lab.mvcio.Controller;
+import it.unibo.oop.lab.mvcio.SimpleGUI;
+
 /**
  * A very simple program using a graphical interface.
  * 
  */
 public final class SimpleGUIWithFileChooser {
+    
+    private final JFrame frame = new JFrame("My first Java graphical interface");
 
+    public static void main(final String[] args) {
+        final SimpleGUIWithFileChooser simp = new SimpleGUIWithFileChooser();
+        simp.frame.setVisible(true);
+    }
+    
+    public SimpleGUIWithFileChooser() {
+        
+        final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        final int sw = (int) screen.getWidth();
+        final int sh = (int) screen.getHeight();
+        frame.setSize(sw / 2, sh / 2);
+        frame.setLocationByPlatform(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(new JPanel());
+        frame.getContentPane().setLayout(new BorderLayout());
+        final JPanel secPan = new JPanel(new BorderLayout());
+        final JTextArea txtArea2 = new JTextArea();
+        final JButton browse = new JButton("Browse...");
+        secPan.add(txtArea2, BorderLayout.CENTER);
+        secPan.add(browse, BorderLayout.LINE_END);
+        frame.getContentPane().add(secPan, BorderLayout.NORTH);
+        final JTextArea txtArea = new JTextArea();
+        final JButton save = new JButton("Save");
+        frame.getContentPane().add(txtArea);
+        frame.getContentPane().add(save, BorderLayout.SOUTH);
+        txtArea2.setEditable(false);
+        final Controller cont = new Controller();
+        txtArea2.setText(cont.getPath());
+        
+        save.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+                try {
+                    cont.writeOnFile(txtArea.getText());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+        browse.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+                final JFileChooser menu = new JFileChooser();
+                final int result = menu.showSaveDialog(menu);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    cont.setFile(menu.getSelectedFile());
+                    txtArea2.setText(cont.getPath());
+                } else {
+                    if (result != JFileChooser.CANCEL_OPTION) {
+                        JOptionPane.showMessageDialog(menu, "An error has occurred...");
+                    }
+                }
+            }
+        });
+    }
     /*
      * TODO: Starting from the application in mvcio:
      * 
