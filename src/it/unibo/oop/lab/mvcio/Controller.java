@@ -13,7 +13,7 @@ public class Controller {
     private static String DEFAULT_FILE_NAME = "output.txt";
     private File currentFile;
     private String path;
-    
+
     public Controller() {
         this.path = System.getProperty("user.home")
                 + System.getProperty("file.separator") + Controller.DEFAULT_FILE_NAME;

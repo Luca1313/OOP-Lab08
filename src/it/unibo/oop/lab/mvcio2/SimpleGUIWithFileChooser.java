@@ -22,16 +22,16 @@ import it.unibo.oop.lab.mvcio.SimpleGUI;
  * 
  */
 public final class SimpleGUIWithFileChooser {
-    
+
     private final JFrame frame = new JFrame("My first Java graphical interface");
 
     public static void main(final String[] args) {
         final SimpleGUIWithFileChooser simp = new SimpleGUIWithFileChooser();
         simp.frame.setVisible(true);
     }
-    
+
     public SimpleGUIWithFileChooser() {
-        
+
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int sw = (int) screen.getWidth();
         final int sh = (int) screen.getHeight();
@@ -53,7 +53,7 @@ public final class SimpleGUIWithFileChooser {
         txtArea2.setEditable(false);
         final Controller cont = new Controller();
         txtArea2.setText(cont.getPath());
-        
+
         save.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 try {
